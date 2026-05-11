@@ -97,7 +97,7 @@ const Hero = React.memo(() => {
           style={{
             fontSize: 'clamp(2.16rem, 4.8vw, 3.84rem)',
             fontWeight: 700,
-            color: '#F0EDE4',
+            color: '#ffffff',
             letterSpacing: '0.05em',
             textAlign: 'center',
             lineHeight: 1.1,
@@ -123,20 +123,7 @@ const Hero = React.memo(() => {
             }}
           />
 
-          <svg
-            width="36"
-            height="36"
-            viewBox="0 0 30 30"
-            fill="none"
-          >
-            <path
-              d="M5 15H25M25 15L16 6M25 15L16 24"
-              stroke="#F0EDE4"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+
         </div>
       </Link>
     </section>

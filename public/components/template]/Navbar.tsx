@@ -34,7 +34,6 @@ const Navbar = React.memo(() => {
         alignItems: 'center',
         gap: '2.64rem',
         padding: '1.08rem 2.4rem',
-        border: '1.8px solid #1B4332',
         backgroundColor: '#F0EDE4',
         pointerEvents: 'auto',
       }}>
@@ -43,7 +42,7 @@ const Navbar = React.memo(() => {
           return (
             <Link key={href} href={href} style={{
               fontFamily: "'Space Mono', monospace",
-              fontSize: '1.2rem',
+              fontSize: '1.9rem',
               fontWeight: active ? 700 : 400,
               color: active ? '#1B4332' : '#111',
               letterSpacing: '0.02em',
@@ -53,13 +52,13 @@ const Navbar = React.memo(() => {
             onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = '#1B4332'}
             onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = active ? '#1B4332' : '#111'}
             >
-              {label}
+              {label}   
               {active && (
-                <span style={{
+                <div style={{
                   position: 'absolute',
                   bottom: -4,
                   left: 0, right: 0,
-                  height: 2,
+                  height: 4,
                   backgroundColor: '#1B4332',
                   borderRadius: 2,
                 }}/>

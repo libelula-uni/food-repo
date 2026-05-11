@@ -2,10 +2,6 @@
 import React from 'react'
 import Navbar from './Navbar'
 
-interface Props {
-  title: string
-  children: React.ReactNode
-}
 
 const InnerPage = React.memo(({ title, children }: Props) => {
   return (
@@ -14,7 +10,7 @@ const InnerPage = React.memo(({ title, children }: Props) => {
       <main style={{
         minHeight: '100vh',
         backgroundColor: '#F0EDE4',
-        paddingTop: '8.4rem',
+        paddingTop: '7.4rem',
         paddingLeft: '3.6rem',
         paddingRight: '3.6rem',
         paddingBottom: '4.8rem',
@@ -26,7 +22,7 @@ const InnerPage = React.memo(({ title, children }: Props) => {
           position: 'absolute',
           top: -1, left: -1,
           width: 408, height: 288,
-          backgroundColor: '#00834c',
+          backgroundColor: '##1B4332',
           borderBottomRightRadius: '9999px',
           zIndex: 0,
         }}/>
@@ -38,7 +34,6 @@ const InnerPage = React.memo(({ title, children }: Props) => {
             fontWeight: 700,
             color: '#0d0d0d',
             marginBottom: '2.4rem',
-            borderBottom: '2.4px solid #1B4332',
             paddingBottom: '1.2rem',
           }}>
             {title}
@@ -46,15 +41,7 @@ const InnerPage = React.memo(({ title, children }: Props) => {
           {children}
         </div>
 
-        {/* Bottom-right accent */}
-        <div style={{
-          position: 'absolute',
-          bottom: 0, right: 0,
-          width: 240, height: 240,
-          backgroundColor: '#1B4332',
-          borderTopLeftRadius: '9999px',
-          zIndex: 0,
-        }}/>
+
       </main>
     </>
   )
