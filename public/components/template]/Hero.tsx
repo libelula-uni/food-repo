@@ -21,8 +21,8 @@ const Hero = React.memo(() => {
           position: 'absolute',
           top: -1,
           left: -1,
-          width: 408,
-          height: 288,
+          width: 500,
+          height: 320,
           backgroundColor: '#1B4332',
           borderBottomRightRadius: '9999px',
         }}

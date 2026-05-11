@@ -66,10 +66,10 @@ export default function Sobre() {
           }}
         >
           <Image
-            src="/images/comida.jpg"
+            src="/images/comida.png"
             alt=""
             width={530}
-            height={300}
+            height={400}
             style={{
               borderRadius: '50px',
               objectFit: 'cover',
