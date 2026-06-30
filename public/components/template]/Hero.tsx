@@ -66,7 +66,7 @@ const Hero = React.memo(() => {
 
       {/* BOTÃO/LINK */}
       <Link
-        href="/sobre"
+        href="/run/login"
         style={{
           position: 'absolute',
           bottom: 0,
