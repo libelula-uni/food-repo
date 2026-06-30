@@ -2,46 +2,24 @@
 import React from 'react'
 import Navbar from './Navbar'
 
+type Props = {
+  title: string
+  children: React.ReactNode
+}
 
 const InnerPage = React.memo(({ title, children }: Props) => {
   return (
     <>
       <Navbar />
-      <main style={{
-        minHeight: '100vh',
-        backgroundColor: '#F0EDE4',
-        paddingTop: '7.4rem',
-        paddingLeft: '3.6rem',
-        paddingRight: '3.6rem',
-        paddingBottom: '4.8rem',
-        position: 'relative',
-        overflow: 'hidden',
-      }}>
-        {/* Top-left green accent circle */}
-        <div style={{
-          position: 'absolute',
-          top: -1, left: -1,
-          width: 408, height: 288,
-          backgroundColor: '##1B4332',
-          borderBottomRightRadius: '9999px',
-          zIndex: 0,
-        }}/>
+      <main className="min-h-screen bg-[#F0EDE4] pt-28 sm:pt-32 px-5 sm:px-10 md:px-16 pb-16 sm:pb-20 relative overflow-hidden">
+        <div className="absolute -top-1 -left-1 w-40 h-28 sm:w-72 sm:h-48 md:w-[408px] md:h-72 bg-[#1B4332] rounded-br-full z-0" />
 
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: 960 }}>
-          <h1 style={{
-            fontFamily: "'Space Mono', monospace",
-            fontSize: 'clamp(2.4rem, 6vw, 4.2rem)',
-            fontWeight: 700,
-            color: '#0d0d0d',
-            marginBottom: '2.4rem',
-            paddingBottom: '1.2rem',
-          }}>
+        <div className="relative z-10 max-w-5xl mx-auto md:mx-0">
+          <h1 className="font-mono text-4xl sm:text-5xl md:text-6xl font-bold text-[#0d0d0d] mb-8 sm:mb-10 pb-2">
             {title}
           </h1>
           {children}
         </div>
-
-
       </main>
     </>
   )

@@ -1,135 +1,34 @@
 'use client'
-
 import React from 'react'
 import Link from 'next/link'
 
 const Hero = React.memo(() => {
   return (
-    <section
-      style={{
-        position: 'relative',
-        width: '100%',
-        height: '100vh',
-        minHeight: 720,
-        backgroundColor: '#F0EDE4',
-        overflow: 'hidden',
-      }}
-    >
-      {/* Top-left green quarter-circle */}
-      <div
-        style={{
-          position: 'absolute',
-          top: -1,
-          left: -1,
-          width: 500,
-          height: 320,
-          backgroundColor: '#1B4332',
-          borderBottomRightRadius: '9999px',
-        }}
-      />
+    <section className="relative w-full min-h-screen bg-[#F0EDE4] overflow-hidden">
+      <div className="absolute -top-1 -left-1 w-48 h-32 sm:w-80 sm:h-56 md:w-[500px] md:h-80 bg-[#1B4332] rounded-br-full" />
 
-      {/* Brand */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '38%',
-          left: '3rem',
-          zIndex: 2,
-        }}
-      >
-        <h1
-          style={{
-            fontFamily: "'Space Mono', monospace",
-            fontSize: 'clamp(3.36rem, 8.4vw, 6.24rem)',
-            fontWeight: 400,
-            color: '#0d0d0d',
-            lineHeight: 1,
-          }}
-        >
+      <div className="absolute top-[32%] sm:top-[38%] left-6 sm:left-12 z-10 max-w-[90%] sm:max-w-[600px]">
+        <h1 className="font-mono text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-normal text-[#0d0d0d] leading-none">
           FoodCycle
         </h1>
-
-        <p
-          style={{
-            fontFamily: "'Space Mono', monospace",
-            fontSize: 'clamp(0.9rem, 1.44vw, 1.14rem)',
-            color: '#444',
-            marginTop: '1.44rem',
-            letterSpacing: '0.04em',
-          }}
-        >
-          Reduzindo o desperdício,
-          <br />
-          alimentando comunidades.
+        <p className="font-mono text-sm sm:text-base md:text-lg text-[#444] mt-6 tracking-wide leading-relaxed">
+          Conectamos estabelecimentos com excedente de alimentos a quem
+          precisa, antes que vire desperdício.
         </p>
       </div>
 
-      {/* BOTÃO/LINK */}
       <Link
         href="/run/login"
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          right: 0,
-          width: '52%',
-          height: '50%',
-          backgroundColor: '#1B4332',
-          borderTopLeftRadius: '9999px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '1.44rem',
-          cursor: 'pointer',
-          textDecoration: 'none',
-          transition: 'background-color 0.3s ease',
-        }}
-        onMouseEnter={(e) =>
-          ((e.currentTarget as HTMLElement).style.backgroundColor =
-            '#163d2b')
-        }
-        onMouseLeave={(e) =>
-          ((e.currentTarget as HTMLElement).style.backgroundColor =
-            '#1B4332')
-        }
+        className="absolute bottom-0 right-0 w-full sm:w-[60%] md:w-[52%] h-[45%] sm:h-[50%] bg-[#1B4332] hover:bg-[#163d2b] sm:rounded-tl-full flex flex-col items-center justify-center gap-6 cursor-pointer no-underline transition-colors"
       >
-        <h2
-          style={{
-            fontSize: 'clamp(2.16rem, 4.8vw, 3.84rem)',
-            fontWeight: 700,
-            color: '#ffffff',
-            letterSpacing: '0.05em',
-            textAlign: 'center',
-            lineHeight: 1.1,
-            margin: 0,
-          }}
-        >
+        <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-wide text-center leading-tight px-4">
           Começa Agora
         </h2>
-
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.48rem',
-          }}
-        >
-          <div
-            style={{
-              width: 108,
-              height: 4,
-              backgroundColor: '#F0EDE4',
-              borderRadius: 2,
-            }}
-          />
-
-
-        </div>
+        <div className="w-24 sm:w-28 h-1 bg-[#F0EDE4] rounded-full" />
       </Link>
     </section>
   )
 })
 
 Hero.displayName = 'Hero'
-
 export default Hero

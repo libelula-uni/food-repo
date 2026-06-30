@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import AuthCard, { inputStyle, buttonStyle } from '../_components/AuthCard'
+import { FaEnvelope, FaLock, FaBuilding } from 'react-icons/fa'
 import { useStore } from '../_lib/store'
 
 export default function CadastroPage() {
@@ -15,7 +15,14 @@ export default function CadastroPage() {
   const [erro, setErro] = useState('')
 
   function handleCadastro() {
-    if (senha !== repetir) return setErro('As senhas não coincidem')
+    if (!email || !senha || !cnpj) {
+      setErro('Preencha todos os campos')
+      return
+    }
+    if (senha !== repetir) {
+      setErro('As senhas não coincidem')
+      return
+    }
     if (register({ email, senha, cnpj })) {
       router.push('/run')
     } else {
@@ -24,16 +31,128 @@ export default function CadastroPage() {
   }
 
   return (
-    <AuthCard title="Cadastro">
-      <input style={inputStyle} placeholder="INSIRA SEU EMAIL" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <input style={inputStyle} placeholder="INSIRA SUA SENHA" type="password" value={senha} onChange={(e) => setSenha(e.target.value)} />
-      <input style={inputStyle} placeholder="REPITA SUA SENHA" type="password" value={repetir} onChange={(e) => setRepetir(e.target.value)} />
-      <input style={inputStyle} placeholder="CNPJ" value={cnpj} onChange={(e) => setCnpj(e.target.value)} />
-      {erro && <p style={{ color: '#a33', fontSize: '0.85rem' }}>{erro}</p>}
-      <p style={{ fontFamily: "'Space Mono', monospace", fontSize: '0.85rem' }}>
-        <Link href="/run/login">Já tenho conta</Link>
-      </p>
-      <button style={buttonStyle} onClick={handleCadastro}>Cadastrar-se</button>
-    </AuthCard>
+    <div
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%)',
+        padding: '1.5rem',
+      }}
+    >
+      <div
+        style={{
+          width: '100%',
+          maxWidth: 400,
+          backgroundColor: '#F0EDE4',
+          borderRadius: 24,
+          padding: '2.5rem 2rem',
+          boxShadow: '0 20px 50px rgba(0,0,0,0.25)',
+        }}
+      >
+        <h1
+          style={{
+            fontFamily: "'Space Mono', monospace",
+            textAlign: 'center',
+            fontSize: '2rem',
+            color: '#1B4332',
+            marginBottom: '0.4rem',
+          }}
+        >
+          FoodCycle
+        </h1>
+        <p
+          style={{
+            textAlign: 'center',
+            color: '#555',
+            fontFamily: "'Space Mono', monospace",
+            fontSize: '0.85rem',
+            marginBottom: '2rem',
+          }}
+        >
+          Crie sua conta
+        </p>
+
+        <Field icon={<FaEnvelope />} placeholder="Email" value={email} onChange={setEmail} />
+        <Field icon={<FaLock />} placeholder="Senha" type="password" value={senha} onChange={setSenha} />
+        <Field icon={<FaLock />} placeholder="Repita a senha" type="password" value={repetir} onChange={setRepetir} />
+        <Field icon={<FaBuilding />} placeholder="CNPJ" value={cnpj} onChange={setCnpj} />
+
+        {erro && (
+          <p style={{ color: '#b3261e', fontSize: '0.85rem', fontFamily: "'Space Mono', monospace", marginBottom: '0.5rem' }}>
+            {erro}
+          </p>
+        )}
+
+        <button onClick={handleCadastro} style={buttonStyle}>
+          Cadastrar-se
+        </button>
+
+        <p
+          style={{
+            textAlign: 'center',
+            marginTop: '1.5rem',
+            fontFamily: "'Space Mono', monospace",
+            fontSize: '0.85rem',
+            color: '#1B4332',
+          }}
+        >
+          <Link href="/run/login" style={{ color: '#1B4332', fontWeight: 700 }}>
+            Já tenho conta — Entrar
+          </Link>
+        </p>
+      </div>
+    </div>
   )
+}
+
+function Field({
+  icon,
+  placeholder,
+  value,
+  onChange,
+  type = 'text',
+}: {
+  icon: React.ReactNode
+  placeholder: string
+  value: string
+  onChange: (v: string) => void
+  type?: string
+}) {
+  return (
+    <div style={{ position: 'relative', marginBottom: '1rem' }}>
+      <span style={{ position: 'absolute', left: 14, top: 14, color: '#1B4332' }}>{icon}</span>
+      <input
+        placeholder={placeholder}
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        style={{
+          width: '100%',
+          padding: '0.85rem 1rem 0.85rem 2.6rem',
+          borderRadius: 12,
+          border: '1px solid #cfc9b8',
+          backgroundColor: '#fff',
+          fontFamily: "'Space Mono', monospace",
+          fontSize: '0.95rem',
+          outline: 'none',
+        }}
+      />
+    </div>
+  )
+}
+
+const buttonStyle: React.CSSProperties = {
+  width: '100%',
+  padding: '0.9rem',
+  marginTop: '0.5rem',
+  backgroundColor: '#1B4332',
+  color: '#F0EDE4',
+  border: 'none',
+  borderRadius: 12,
+  fontFamily: "'Space Mono', monospace",
+  fontSize: '1rem',
+  fontWeight: 700,
+  cursor: 'pointer',
 }

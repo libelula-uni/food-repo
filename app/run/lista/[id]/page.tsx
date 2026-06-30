@@ -5,7 +5,7 @@ import { useStore } from '../../_lib/store'
 
 export default function AlimentoDetalhe() {
   const { id } = useParams<{ id: string }>()
-  const { foods, addSolicitacao } = useStore()
+  const { foods, addDesejo } = useStore()
   const router = useRouter()
   const food = foods.find((f) => f.id === id)
 
@@ -33,8 +33,8 @@ export default function AlimentoDetalhe() {
           <p>Prazo de retirada: {food.dia}/{food.mes}/{food.ano}</p>
           <button
             onClick={() => {
-              addSolicitacao(food.id)
-              router.push('/run/solicitacoes')
+              addDesejo(food.id)
+              router.push('/run')
             }}
             style={{
               marginTop: '1.5rem',

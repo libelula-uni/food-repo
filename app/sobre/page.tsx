@@ -1,79 +1,29 @@
 'use client'
-
 import Image from 'next/image'
 import InnerPage from '@/public/components/template]/InnerPage'
 
 export default function Sobre() {
   return (
-    <InnerPage >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: '40rem',
-          marginTop: '1rem',
-
-        }}
-      >
-        {/* Texto */}
-        <div
-          style={{
-            flex: 1,
-            minWidth: '500px',
-            marginBottom: '20rem',
-          }}
-        >
-          <h1
-            style={{
-              fontSize: '7rem',
-              marginBottom: '1rem',
-              color: '#000',
-              fontWeight: 400,
-            }}
-          >
-            Sobre
-          </h1>
-
-          <p
-            style={{
-              fontSize: '1.3rem',
-              lineHeight: 1.3,
-              maxWidth: '650px',
-              color: '#111',
-            }}
-          >
-            Lorem ipsum dolor sit amet,
-            consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Ut enim ad minim
-            veniam, quis nostrud exercitation
-            ullamco laboris nisi ut aliquip ex ea
-            commodo consequat.
+    <InnerPage title="Sobre">
+      <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16 mt-4">
+        <div className="flex-1 max-w-xl">
+          <p className="text-base sm:text-lg leading-relaxed text-[#111]">
+            O FoodCycle nasceu para reduzir o desperdício de alimentos em
+            estabelecimentos comerciais. Restaurantes, mercados e padarias
+            cadastram excedentes próximos da validade, e organizações que
+            atendem comunidades em vulnerabilidade conseguem reservá-los antes
+            que sejam descartados. Conectamos quem tem excesso a quem
+            precisa, de forma simples e rápida.
           </p>
         </div>
 
-        {/* Card da imagem */}
-        <div
-          style={{
-            backgroundColor: '#1B4332',
-            borderRadius: '80px',
-            padding: '3rem',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minWidth: '500px',
-          }}
-        >
+        <div className="bg-[#1B4332] rounded-[40px] sm:rounded-[60px] p-6 sm:p-10 flex justify-center items-center w-full lg:w-auto">
           <Image
             src="/images/comida.png"
-            alt=""
+            alt="Cesta de alimentos frescos prontos para doação"
             width={530}
             height={400}
-            style={{
-              borderRadius: '50px',
-              objectFit: 'cover',
-            }}
+            className="rounded-3xl object-cover w-full max-w-md h-auto"
           />
         </div>
       </div>

@@ -4,28 +4,20 @@ import { Food } from '../_lib/store'
 
 export default function FoodListItem({ food }: { food: Food }) {
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        backgroundColor: '#e3e0d8',
-        borderRadius: 10,
-        padding: '0.6rem 1rem',
-        marginBottom: '0.6rem',
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <div style={{ width: 50, height: 50, borderRadius: '50%', backgroundColor: '#fff', overflow: 'hidden' }}>
-          {food.imagem && <img src={food.imagem} alt={food.nome} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
+    <div className="flex items-center justify-between bg-[#e3e0d8] rounded-xl px-4 py-3 mb-3 gap-3">
+      <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+        <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white overflow-hidden flex-shrink-0">
+          {food.imagem && (
+            <img src={food.imagem} alt={food.nome} className="w-full h-full object-cover" />
+          )}
         </div>
-        <div style={{ fontFamily: "'Space Mono', monospace" }}>
-          <div>{food.nome}</div>
-          <div style={{ fontSize: '0.85rem', color: '#555' }}>{food.distribuidora}</div>
+        <div className="font-mono min-w-0">
+          <div className="truncate text-sm sm:text-base">{food.nome}</div>
+          <div className="text-xs sm:text-sm text-[#555] truncate">{food.distribuidora}</div>
         </div>
       </div>
-      <Link href={`/run/lista/${food.id}`} style={{ color: '#1B4332', fontFamily: "'Space Mono', monospace" }}>
-        Informações ›
+      <Link href={`/run/lista/${food.id}`} className="font-mono text-sm sm:text-base text-[#1B4332] flex-shrink-0">
+        Detalhes ›
       </Link>
     </div>
   )

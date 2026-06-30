@@ -23,8 +23,9 @@ export default function CadastrarAlimento() {
   }
 
   function handleCadastrar() {
+    if (!nome || !quantidade) return
     addFood({ nome, distribuidora: 'Minha Empresa', quantidade, dia, mes, ano, imagem })
-    router.push('/runw')
+    router.push('/run')
   }
 
   const inputStyle: React.CSSProperties = {
