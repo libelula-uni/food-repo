@@ -1,0 +1,11 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="100" cy="100" r="100" fill="#F0EDE4"/>
+  <path d="M82 52 h30 v18 l10 14 v70 a8 8 0 0 1 -8 8 H80 a8 8 0 0 1 -8 -8 V84 l10 -14 Z" fill="#FDFBF6" stroke="#1B4332" stroke-width="3"/>
+  <rect x="82" y="52" width="30" height="10" fill="#1B4332"/>
+  <rect x="76" y="108" width="42" height="16" fill="#2D6A4F" opacity="0.9"/>
+  <text x="97" y="120" font-family="monospace" font-size="9" fill="#F0EDE4" text-anchor="middle">LEITE</text>
+  <circle cx="140" cy="130" r="18" fill="#F5EFD9" stroke="#C9B98A" stroke-width="2"/>
+  <circle cx="134" cy="124" r="2" fill="#C9B98A"/>
+  <circle cx="146" cy="128" r="2" fill="#C9B98A"/>
+  <circle cx="138" cy="136" r="2" fill="#C9B98A"/>
+</svg>

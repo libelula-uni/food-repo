@@ -11,17 +11,28 @@ export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
   const [erro, setErro] = useState('')
+  const [bloqueado, setBloqueado] = useState(false)
+  const [enviando, setEnviando] = useState(false)
 
-  function handleLogin() {
+  async function handleLogin() {
+    if (enviando) return
     if (!email || !senha) {
       setErro('Preencha email e senha')
       return
     }
-    if (login(email, senha)) {
+
+    setEnviando(true)
+    setErro('')
+    const resultado = await login(email, senha)
+
+    if (resultado.valid) {
       router.push('/run')
-    } else {
-      setErro('Email ou senha inválidos')
+      return
     }
+
+    setBloqueado(!!resultado.locked)
+    setErro(resultado.errors[0] ?? 'Não foi possível entrar')
+    setEnviando(false)
   }
 
   return (
@@ -74,6 +85,7 @@ export default function LoginPage() {
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
             style={fieldStyle}
           />
         </div>
@@ -86,18 +98,27 @@ export default function LoginPage() {
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
+            autoComplete="current-password"
+            maxLength={72}
             style={fieldStyle}
           />
         </div>
 
         {erro && (
-          <p style={{ color: '#b3261e', fontSize: '0.85rem', fontFamily: "'Space Mono', monospace", marginBottom: '0.5rem' }}>
+          <p
+            style={{
+              color: bloqueado ? '#8a5a00' : '#b3261e',
+              fontSize: '0.85rem',
+              fontFamily: "'Space Mono', monospace",
+              marginBottom: '0.5rem',
+            }}
+          >
             {erro}
           </p>
         )}
 
-        <button onClick={handleLogin} style={buttonStyle}>
-          Entrar
+        <button onClick={handleLogin} disabled={enviando} style={{ ...buttonStyle, opacity: enviando ? 0.7 : 1 }}>
+          {enviando ? 'Entrando...' : 'Entrar'}
         </button>
 
         <p

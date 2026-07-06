@@ -3,33 +3,61 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import TopNav from '../_components/TopNav'
 import { useStore } from '../_lib/store'
+import { formatCNPJ } from '../_lib/validation'
 
 export default function PerfilPage() {
   const { currentUser, updateUser, logout, loading } = useStore()
   const router = useRouter()
 
-  const [senha, setSenha] = useState('')
+  const [novaSenha, setNovaSenha] = useState('')
+  const [repetirSenha, setRepetirSenha] = useState('')
   const [cnpj, setCnpj] = useState('')
   const [editando, setEditando] = useState(false)
   const [salvo, setSalvo] = useState(false)
+  const [erros, setErros] = useState<string[]>([])
+  const [salvando, setSalvando] = useState(false)
 
   useEffect(() => {
     if (!loading && !currentUser) {
       router.push('/run/login')
     }
     if (currentUser) {
-      setSenha(currentUser.senha)
-      setCnpj(currentUser.cnpj)
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setCnpj(formatCNPJ(currentUser.cnpj))
     }
   }, [loading, currentUser, router])
 
   if (loading || !currentUser) return null
 
-  function handleSalvar() {
-    updateUser({ senha, cnpj })
+  async function handleSalvar() {
+    if (salvando) return
+    setSalvando(true)
+    setErros([])
+
+    const resultado = await updateUser({
+      cnpj,
+      senha: novaSenha || undefined,
+      repetirSenha: novaSenha ? repetirSenha : undefined,
+    })
+
+    if (resultado.valid) {
+      setEditando(false)
+      setSalvo(true)
+      setNovaSenha('')
+      setRepetirSenha('')
+      setTimeout(() => setSalvo(false), 2000)
+    } else {
+      setErros(resultado.errors)
+    }
+    setSalvando(false)
+  }
+
+  function handleCancelar() {
     setEditando(false)
-    setSalvo(true)
-    setTimeout(() => setSalvo(false), 2000)
+    setErros([])
+    setNovaSenha('')
+    setRepetirSenha('')
+    if (currentUser) setCnpj(formatCNPJ(currentUser.cnpj))
   }
 
   function handleLogout() {
@@ -71,18 +99,57 @@ export default function PerfilPage() {
           <input
             value={cnpj}
             disabled={!editando}
-            onChange={(e) => setCnpj(e.target.value)}
+            onChange={(e) => setCnpj(formatCNPJ(e.target.value))}
             style={fieldStyle}
           />
 
-          <label style={{ fontFamily: "'Space Mono', monospace", fontSize: '0.8rem', color: '#555' }}>Senha</label>
-          <input
-            type="password"
-            value={senha}
-            disabled={!editando}
-            onChange={(e) => setSenha(e.target.value)}
-            style={fieldStyle}
-          />
+          {editando && (
+            <>
+              <label style={{ fontFamily: "'Space Mono', monospace", fontSize: '0.8rem', color: '#555' }}>
+                Nova senha <span style={{ color: '#999' }}>(deixe em branco para manter a atual)</span>
+              </label>
+              <input
+                type="password"
+                value={novaSenha}
+                onChange={(e) => setNovaSenha(e.target.value)}
+                autoComplete="new-password"
+                maxLength={72}
+                style={fieldStyle}
+              />
+              {novaSenha && (
+                <>
+                  <label style={{ fontFamily: "'Space Mono', monospace", fontSize: '0.8rem', color: '#555' }}>
+                    Repita a nova senha
+                  </label>
+                  <input
+                    type="password"
+                    value={repetirSenha}
+                    onChange={(e) => setRepetirSenha(e.target.value)}
+                    autoComplete="new-password"
+                    maxLength={72}
+                    style={fieldStyle}
+                  />
+                </>
+              )}
+            </>
+          )}
+
+          {!editando && (
+            <>
+              <label style={{ fontFamily: "'Space Mono', monospace", fontSize: '0.8rem', color: '#555' }}>Senha</label>
+              <input value="••••••••" disabled style={{ ...fieldStyle, backgroundColor: '#e9e6dd' }} />
+            </>
+          )}
+
+          {erros.length > 0 && (
+            <div style={{ marginBottom: '0.5rem' }}>
+              {erros.map((e, i) => (
+                <p key={i} style={{ color: '#b3261e', fontFamily: "'Space Mono', monospace", fontSize: '0.85rem', margin: '0.2rem 0' }}>
+                  {e}
+                </p>
+              ))}
+            </div>
+          )}
 
           {salvo && (
             <p style={{ color: '#1B4332', fontFamily: "'Space Mono', monospace", fontSize: '0.85rem' }}>
@@ -96,13 +163,20 @@ export default function PerfilPage() {
                 Editar
               </button>
             ) : (
-              <button onClick={handleSalvar} style={btnPrimario}>
-                Salvar
+              <>
+                <button onClick={handleSalvar} disabled={salvando} style={{ ...btnPrimario, opacity: salvando ? 0.7 : 1 }}>
+                  {salvando ? 'Salvando...' : 'Salvar'}
+                </button>
+                <button onClick={handleCancelar} style={btnSecundario}>
+                  Cancelar
+                </button>
+              </>
+            )}
+            {!editando && (
+              <button onClick={handleLogout} style={btnSecundario}>
+                Sair
               </button>
             )}
-            <button onClick={handleLogout} style={btnSecundario}>
-              Sair
-            </button>
           </div>
         </div>
       </div>

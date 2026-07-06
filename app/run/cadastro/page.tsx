@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { FaEnvelope, FaLock, FaBuilding } from 'react-icons/fa'
 import { useStore } from '../_lib/store'
+import { formatCNPJ } from '../_lib/validation'
 
 export default function CadastroPage() {
   const { register } = useStore()
@@ -12,21 +13,21 @@ export default function CadastroPage() {
   const [senha, setSenha] = useState('')
   const [repetir, setRepetir] = useState('')
   const [cnpj, setCnpj] = useState('')
-  const [erro, setErro] = useState('')
+  const [erros, setErros] = useState<string[]>([])
+  const [enviando, setEnviando] = useState(false)
 
-  function handleCadastro() {
-    if (!email || !senha || !cnpj) {
-      setErro('Preencha todos os campos')
-      return
-    }
-    if (senha !== repetir) {
-      setErro('As senhas não coincidem')
-      return
-    }
-    if (register({ email, senha, cnpj })) {
+  async function handleCadastro() {
+    if (enviando) return
+    setEnviando(true)
+    setErros([])
+
+    const resultado = await register({ email, senha, repetirSenha: repetir, cnpj })
+
+    if (resultado.valid) {
       router.push('/run')
     } else {
-      setErro('Email já cadastrado')
+      setErros(resultado.errors)
+      setEnviando(false)
     }
   }
 
@@ -77,16 +78,28 @@ export default function CadastroPage() {
         <Field icon={<FaEnvelope />} placeholder="Email" value={email} onChange={setEmail} />
         <Field icon={<FaLock />} placeholder="Senha" type="password" value={senha} onChange={setSenha} />
         <Field icon={<FaLock />} placeholder="Repita a senha" type="password" value={repetir} onChange={setRepetir} />
-        <Field icon={<FaBuilding />} placeholder="CNPJ" value={cnpj} onChange={setCnpj} />
+        <Field
+          icon={<FaBuilding />}
+          placeholder="CNPJ"
+          value={cnpj}
+          onChange={(v) => setCnpj(formatCNPJ(v))}
+        />
+        <p style={{ fontFamily: "'Space Mono', monospace", fontSize: '0.72rem', color: '#777', marginTop: '-0.6rem', marginBottom: '1rem' }}>
+          A senha deve ter no mínimo 8 caracteres, com letras e números.
+        </p>
 
-        {erro && (
-          <p style={{ color: '#b3261e', fontSize: '0.85rem', fontFamily: "'Space Mono', monospace", marginBottom: '0.5rem' }}>
-            {erro}
-          </p>
+        {erros.length > 0 && (
+          <div style={{ marginBottom: '0.5rem' }}>
+            {erros.map((e, i) => (
+              <p key={i} style={{ color: '#b3261e', fontSize: '0.85rem', fontFamily: "'Space Mono', monospace", margin: '0.2rem 0' }}>
+                {e}
+              </p>
+            ))}
+          </div>
         )}
 
-        <button onClick={handleCadastro} style={buttonStyle}>
-          Cadastrar-se
+        <button onClick={handleCadastro} disabled={enviando} style={{ ...buttonStyle, opacity: enviando ? 0.7 : 1 }}>
+          {enviando ? 'Criando conta...' : 'Cadastrar-se'}
         </button>
 
         <p
@@ -128,6 +141,8 @@ function Field({
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        maxLength={type === 'password' ? 72 : 254}
+        autoComplete={type === 'password' ? 'new-password' : 'email'}
         style={{
           width: '100%',
           padding: '0.85rem 1rem 0.85rem 2.6rem',
